@@ -3,7 +3,7 @@ public class DijkstraSP {
     private DirectedEdge[] edgeTo;
     private IndexMinPQ<Double> pq;
 
-    public DijkstraSP(EdgeWeightedDigrapg G, int s){
+    public DijkstraSP(EdgeWeightedDigraph G, int s){
         for(DirectedEdge e : G.edges()){
             if(e.weight()<0){
                 throw new IllegalArgumentException("edge "+ e + " has negative weight");
@@ -61,7 +61,7 @@ public class DijkstraSP {
         }
         return path;
     }
-    private boolean check(EdgeWeightDiagraph G, int s){
+    private boolean check(EdgeWeightDigraph G, int s){
         for(DirectedEdge e : G.edges()){
             if(e.weight()<0){
                 System.err.println("negative edge weight detected");
@@ -108,7 +108,7 @@ public class DijkstraSP {
     }
     public static void main(String [] args){
         In in = new In(args[0]);
-        EdgeWeightDiagraph G = new EdgeWeightedDiagraph(in);
+        EdgeWeightDigraph G = new EdgeWeightedDigraph(in);
         int s = Integer.parseInt(args[1]);
 
         DijkstraSP sp = new DijkstraSP(G, s);
