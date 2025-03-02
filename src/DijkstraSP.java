@@ -10,7 +10,7 @@ public class DijkstraSP {
             }
         }
 
-        distTo = new Double[G.V()];
+        distTo = new double[G.V()];
         edgeTo = new DirectedEdge[G.V()];
 
         validateVertex(s);
@@ -31,13 +31,13 @@ public class DijkstraSP {
         }
         assert check(G,s);
     }
-    private void relax(DirectEdge e){
+    private void relax(DirectedEdge e){
         int v = e.from(), w = e.to();
         if (distTo[w] > distTo[v]+e.weight()) {
             distTo[w] = distTo[v] + e.weight();
             edgeTo[w] = e;
             if(pq.contains(w)){
-                pq.descreaseKey(w, distTo[w]);
+                pq.decreaseKey(w, distTo[w]);
             }else{
                 pq.insert(w, distTo[w]);
             }
@@ -48,20 +48,20 @@ public class DijkstraSP {
         validateVertex(v);
         return distTo[v];
     }
-    public boolean hasPathto(int v){
+    public boolean hasPathTo(int v){
         validateVertex(v);
         return distTo[v] < Double.POSITIVE_INFINITY;
     }
     public Iterable<DirectedEdge> pathTo(int v){
         validateVertex(v);
-        if(!hasPathto(v)) return null;
+        if(!hasPathTo(v)) return null;
         Stack<DirectedEdge> path = new Stack<DirectedEdge>();
         for(DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()]){
             path.push(e);
         }
         return path;
     }
-    private boolean check(EdgeWeightDigraph G, int s){
+    private boolean check(EdgeWeightedDigraph G, int s){
         for(DirectedEdge e : G.edges()){
             if(e.weight()<0){
                 System.err.println("negative edge weight detected");
@@ -108,12 +108,12 @@ public class DijkstraSP {
     }
     public static void main(String [] args){
         In in = new In(args[0]);
-        EdgeWeightDigraph G = new EdgeWeightedDigraph(in);
+        EdgeWeightedDigraph G = new EdgeWeightedDigraph(in);
         int s = Integer.parseInt(args[1]);
 
         DijkstraSP sp = new DijkstraSP(G, s);
         for (int t = 0; t < G.V(); t++){
-            if(sp.hasPathto(t)){
+            if(sp.hasPathTo(t)){
                 StdOut.printf("%d to %d (%.2f) ", s, t, sp.distTo(t));
                 for(DirectedEdge e : sp.pathTo(t)){
                     StdOut.print(e + "  ");

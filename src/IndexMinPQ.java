@@ -9,10 +9,12 @@ public class IndexMinPQ<Key extends Comparable<Key>>implements Iterable<Integer>
     private int[] qp;
     private Key[] keys;
 
+    @SuppressWarnings("unchecked")
     public IndexMinPQ(int maxN){
         if(maxN <0)throw new IllegalArgumentException();
         this.maxN = maxN;
         n=0;
+
         keys = (Key[]) new Comparable[maxN + 1];
         pq = new int[maxN + 1];
         qp = new int[maxN + 1];
@@ -41,15 +43,16 @@ public class IndexMinPQ<Key extends Comparable<Key>>implements Iterable<Integer>
     }
     public int minIndex(){
         if(n ==0) throw new NoSuchElementException("Priority queue underflow");
-        return pq[i];
+        int i;
+        return pq[1];
     }
     public Key minKey(){
         if(n ==0) throw new NoSuchElementException("Priority queue underflow");
-        return keys[pq[i]];
+        return keys[pq[1]];
     }
     public int delMin(){
         if(n==0)throw new NoSuchElementException("Priority queue underflow");
-        int min = pq[i];
+        int min = pq[1];
         exch(1, n--);
         sink(1);
         assert min == pq [n+1];
@@ -165,7 +168,7 @@ public class IndexMinPQ<Key extends Comparable<Key>>implements Iterable<Integer>
             StdOut.println(i + " "+ strings[i]);
         }
         StdOut.println();
-        for(int i = 0; i< strings.length; ++1){
+        for(int i = 0; i< strings.length; i++){
             pq.insert(i,strings[i]);
         }
         for(int i : pq){

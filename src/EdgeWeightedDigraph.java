@@ -1,7 +1,7 @@
 import java.util.NoSuchElementException;
 import java.util.Stack;
 
-public class EdgeWeightDigraph {
+public class EdgeWeightedDigraph {
     private static final String NEWLINE = System.getProperty("line.separator");
 
     private final int V;
@@ -9,17 +9,18 @@ public class EdgeWeightDigraph {
     private Stack<DirectedEdge>[] adj;
     private int[] indegree;
 
-    public EdgeWeightDigraph(int V){
+    @SuppressWarnings("unchecked")
+    public EdgeWeightedDigraph(int V){
         if(V<0) throw new IllegalArgumentException("Number of vertices in a Digraph must be non-negative");
         this.V = V;
         this.E = 0;
         this.indegree = new int[V];
-        adj= (Stack<DirectedEdge>[]) new Stack[V];
+        adj= (Stack<DirectedEdge>[]) new Stack<?>[V];
         for (int v = 0; v < V; v++){
-            adj[v] = new Stack<DirectedEdge>();
+            adj[v] = new Stack<>();
         }
     }
-    public EdgeWeightDigraph(int V, int E){
+    public EdgeWeightedDigraph(int V, int E){
         this(V);
         if(E < 0)throw new IllegalArgumentException("Number of vertices in a Digraph must be non-negative");
         for(int i = 0; i < E; i++){
@@ -30,13 +31,14 @@ public class EdgeWeightDigraph {
             addEdge(e);
         }
     }
-    public EdgeWeightedDigraph (In in){
+    @SuppressWarnings("unchecked")
+    public EdgeWeightedDigraph(In in){
         if(in ==null) throw new IllegalArgumentException("argument is null");
         try{
             this.V = in.readInt();
             if(V<0) throw new IllegalArgumentException("number of vertices in a Digraph must be non-negative");
             indegree = new int[V];
-            adj = (Stack<DirectedEdge>[]) new Stack[V];
+            adj = (Stack<DirectedEdge>[]) new Stack<?>[V];
             for (int v = 0; v < V; v++){
                 adj[v] = new Stack<DirectedEdge>();
             }
@@ -54,7 +56,7 @@ public class EdgeWeightDigraph {
             throw new IllegalArgumentException("invalid input format in EdgeWeightedDigraph constructor", e);
         }
     }
-    public EdgeWeightDigraph(EdgeWeightDigraph G){
+    public EdgeWeightedDigraph(EdgeWeightedDigraph G){
         this(G.V());
         this.E = G.E();
         for(int v =0; v < G.V(); v++){
@@ -98,7 +100,7 @@ public class EdgeWeightDigraph {
         validateVertex(v);
         return adj[v].size();
     }
-    public int indefree(int v){
+    public int indegree(int v){
         validateVertex(v);
         return indegree[v];
     }
@@ -126,7 +128,7 @@ public class EdgeWeightDigraph {
 
     public static void main(String[] args) {
         In in = new In(args[0]);
-        EdgeWeightDigraph G = new EdgeWeightDigraph(in);
+        EdgeWeightedDigraph G = new EdgeWeightedDigraph(in);
         StdOut.println(G);
     }
 }
